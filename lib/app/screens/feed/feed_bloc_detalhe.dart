@@ -10,18 +10,17 @@ class FeedBlocDetalhe extends BlocBase {
   final FeedApiDetalhe _api;
   FeedBlocDetalhe(this._api);
 
-  final _feedFetcher = PublishSubject<List<Sprint>>();
+  final _feedFetcher = PublishSubject<Sprint>();
   final _loading = BehaviorSubject<bool>();
 
-  Stream<List<Sprint>> get posts => _feedFetcher.stream;
+  Stream<Sprint> get posts => _feedFetcher.stream;
   Stream<bool> get loading {
     return _loading.stream;
   }
 
-  doFetchDetalhe(String id) async {
+  doFetchDetalhe(int id) async {
     _loading.sink.add(true);
     final sprint = await _api.fetchPosts(id);
-    sprint.shuffle();
     _loading.sink.add(false);
     _feedFetcher.sink.add(sprint);
   }

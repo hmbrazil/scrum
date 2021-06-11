@@ -13,8 +13,8 @@ class FeedWidgetDetalhe extends StatelessWidget {
 
   late final FeedBlocDetalhe _bloc = FeedModuleDetalhe.to.getBloc<FeedBlocDetalhe>();
 
-  FeedWidgetDetalhe(int id);
-  late final String id = id;
+  final int id;
+  FeedWidgetDetalhe(this.id);
   // Widget _postTitle(Post post) => Column(
   //   crossAxisAlignment: CrossAxisAlignment.start,
   //   children: [
@@ -34,13 +34,12 @@ class FeedWidgetDetalhe extends StatelessWidget {
       ),
       body: StreamBuilder(
         stream: _bloc.posts,
-        builder: (context, AsyncSnapshot<List<Sprint>> snapshot) {
+        builder: (context, AsyncSnapshot<Sprint> snapshot) {
           if (snapshot.hasData) {
-            final sprints = snapshot.data!;
+            final sprint = snapshot.data!;
             return ListView.separated(
-              itemCount: sprints.length,
+              itemCount: 1,
               itemBuilder: (_, index) {
-                final sprint = sprints[index];
                 return
                   Card(
                     child: InkWell(
