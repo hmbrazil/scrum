@@ -10,13 +10,17 @@ import 'feed_api_detalhe.dart';
 
 
 class FeedModuleDetalhe extends ModuleWidget {
+
+  int _id;
+  FeedModuleDetalhe(this._id);
+
   @override
   List<Bloc> get blocs =>[
     Bloc((i) => FeedBlocDetalhe(i.getDependency<FeedApiDetalhe>())),
   ];
 
   @override
-  Widget get view => FeedWidget();
+  Widget get view => FeedWidgetDetalhe(_id);
 
   @override
   List<Dependency> get dependencies => [

@@ -9,17 +9,11 @@ class FeedApiDetalhe {
 
   final _client = AppModule.to.getDependency<Client>();
 
-  Future<List<Sprint>> fetchPosts(String id) async {
-    final response = await _client.get(Uri.parse('${Constants.API_BASE_URL}/$id'));
+  Future<Sprint> fetchPosts(int id) async {
+    final response = await _client.get(Uri.parse('${Constants.API_BASE_URL}/sprint/$id'));
 
     if (response.statusCode == 200) {
-      final List<dynamic> jPosts = json.decode(response.body);
-      final sprint = jPosts.map((jp) => Sprint.fromJson(jp)).toList();
-      // for (final p in posts) {
-      //   final res = await _client.get(Uri.parse('${Constants.API_BASE_URL}/users/${p.userId}'));
-      //   res.statusCode == 200 ? p.user = User.fromRawJson(res.body) : p.user = null;
-      // }
-      return sprint;
+      return Sprint.fromRawJson(response.body);
     }
     else {
       throw Exception('Erro ao recuperar posts. Status Code: ${response.statusCode}');

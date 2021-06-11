@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:social/app/screens/feed/feed_bloc.dart';
 import 'package:social/app/screens/feed/feed_module.dart';
+import 'package:social/app/screens/feed/feed_module_detalhe.dart';
 import 'package:social/app/shared/models/sprint.dart';
 
 import 'feed_widget_adiciona.dart';
@@ -44,7 +45,7 @@ class FeedWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FeedWidgetDetalhe(sprint.id)
+                            builder: (context) => FeedModuleDetalhe(sprint.id)
                           ),
                         );
                       },
