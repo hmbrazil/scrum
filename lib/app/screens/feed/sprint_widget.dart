@@ -1,56 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:social/app/screens/feed/feed_bloc.dart';
-import 'package:social/app/screens/feed/feed_module.dart';
+import 'package:social/app/screens/feed/components/sprint/sprint_bloc.dart';
+import 'package:social/app/screens/feed/components/sprint/sprint_module.dart';
 import 'package:social/app/screens/feed/feed_module_detalhe.dart';
 import 'package:social/app/shared/models/sprint.dart';
+import 'sprint_widget_create.dart';
 
-import 'feed_bloc_detalhe.dart';
-import 'feed_widget_adiciona.dart';
-import 'feed_widget_detalhe.dart';
+class SprintWidget extends StatelessWidget {
 
-class FeedWidgetDetalhe extends StatelessWidget {
-
-  late final FeedBlocDetalhe _bloc = FeedModuleDetalhe.to.getBloc<FeedBlocDetalhe>();
-
-  final int id;
-  FeedWidgetDetalhe(this.id);
-  // Widget _postTitle(Post post) => Column(
-  //   crossAxisAlignment: CrossAxisAlignment.start,
-  //   children: [
-  //     UserTitleWidget(post.user!),
-  //     SizedBox(height: 8),
-  //     Text(post.title),
-  //     SizedBox(height: 24),
-  //   ],
-  // );
+late final SprintBloc _bloc = SprintModule.to.getBloc<SprintBloc>();
 
   @override
   Widget build(BuildContext context) {
-     _bloc.doFetchDetalhe(id);
+    _bloc.doFetchListAll();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feed'),
+        title: Text('Lista'),
       ),
       body: StreamBuilder(
-        stream: _bloc.posts,
-        builder: (context, AsyncSnapshot<Sprint> snapshot) {
+        stream: _bloc.postsList,
+        builder: (context, AsyncSnapshot<List<Sprint>> snapshot) {
           if (snapshot.hasData) {
-            final sprint = snapshot.data!;
+            final sprints = snapshot.data!;
             return ListView.separated(
-              itemCount: 1,
+              itemCount: sprints.length,
               itemBuilder: (_, index) {
+                final sprint = sprints[index];
                 return
-                  Card(
+                  Container(
                     child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FeedModuleDetalhe(sprint.id, 1)
+                          ),
+                        );
+                      },
                       child: ListTile(
                         title: Text(sprint.nome),
                         subtitle: Text(sprint.link),
                       ),
                     ),
                   );
-                // title: _postTitle(post),
-                // subtitle: PostBodyWidget(post),
               },
               separatorBuilder: (_, __) => Divider(),
             );
@@ -82,6 +74,6 @@ class FeedWidgetDetalhe extends StatelessWidget {
 _navigateToAddScreen (BuildContext context) async {
   final result = await Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => FeedWidgetAdiciona()),
+    MaterialPageRoute(builder: (context) => SprintWidgetCreate()),
   );
 }
